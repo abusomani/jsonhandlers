@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRead(t *testing.T) {
+func TestFileRead(t *testing.T) {
 	tests := []struct {
 		name     string
 		wantErr  bool
@@ -62,12 +62,10 @@ func TestRead(t *testing.T) {
 	}
 }
 
-func TestWrite(t *testing.T) {
+func TestFileWrite(t *testing.T) {
 	tests := []struct {
 		name     string
 		arg      []byte
-		wantErr  bool
-		err      error
 		fileName string
 		prepare  func()
 		cleanup  func()
@@ -75,8 +73,6 @@ func TestWrite(t *testing.T) {
 		{
 			name:     "should not return any error upon successfully writing",
 			arg:      []byte(`{"country": "brazil"}`),
-			wantErr:  false,
-			err:      nil,
 			fileName: "test.json",
 			prepare: func() {
 				os.Create("test.json")
@@ -92,10 +88,7 @@ func TestWrite(t *testing.T) {
 				tt.prepare()
 			}
 			f := NewFileHandler(tt.fileName)
-			err := f.Write(tt.arg)
-			if tt.wantErr {
-				assert.Equal(t, tt.err, err)
-			}
+			f.Write(tt.arg)
 			if tt.cleanup != nil {
 				tt.cleanup()
 			}

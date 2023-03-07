@@ -16,9 +16,8 @@ issues:
 
 linters:
   enable:
-    # - dupl
+    - dupl
     - exhaustive
-    # - exhaustivestruct
     - goconst
     - godot
     - godox
@@ -26,7 +25,7 @@ linters:
     - gomoddirectives
     - goprintffuncname
     - ifshort
-    # - lll
+    - lll
     - misspell
     - nakedret
     - nestif

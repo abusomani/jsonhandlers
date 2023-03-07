@@ -14,21 +14,17 @@ issues:
   fix: true
 
 linters:
-    disable_all: true
-    # enable:
-    #   - bodyclose
-    #   - exportloopref
-    #   - goimports
-    #   - gosec
-    #   - nilerr
-    #   - predeclared
-    #   - revive
-    #   - rowserrcheck
-    #   - sqlclosecheck
-    #   - tparallel
-    #   - unconvert
-    #   - unparam
-    #   - whitespace
-
-    # disable:
-    #   - errcheck
+  disable-all: true
+  enable:
+    - exportloopref
+    - goimports
+    - gosec
+    - nilerr
+    - predeclared
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - tparallel
+    - unconvert
+    - unparam
+    - whitespace

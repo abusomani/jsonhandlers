@@ -8,16 +8,16 @@ import (
 	"github.com/abusomani/easyjson/handler"
 )
 
-// EasyJson exposes Marshal and Unmarshal method
-type EasyJson struct {
+// EasyJSON exposes Marshal and Unmarshal methods.
+type EasyJSON struct {
 	// default handler is NoopHandler
-	// It can take values of FileHandler, HttpRequestHandler, HttpResponseHandler
+	// It can take values of FileHandler, HTTPRequestHandler, HTTPResponseHandler
 	handler handler.Handler
 }
 
-// New returns a new EasyJson instance with variable options to set the required configurations.
-func New(opts ...Option) *EasyJson {
-	e := &EasyJson{}
+// New returns a new EasyJSON instance with variable options to set the required configurations.
+func New(opts ...Option) *EasyJSON {
+	e := &EasyJSON{}
 
 	// set the default configurations
 	defaults := WithDefaults()
@@ -29,10 +29,16 @@ func New(opts ...Option) *EasyJson {
 	return e
 }
 
-func (e *EasyJson) Marshal(v any) error {
+// Marshal writes the JSON encoding of v in the configured source of handler.
+//
+// JSON cannot represent cyclic data structures and Marshal does not
+// handle them. Passing cyclic structures to Marshal will result in
+// an error.
+func (e *EasyJSON) Marshal(v any) error {
 	if e.handler == nil {
 		return fmt.Errorf("handler not configured")
 	}
+
 	value, err := json.Marshal(v)
 	if err != nil {
 		return fmt.Errorf("json marshal: %s", err.Error())
@@ -45,7 +51,8 @@ func (e *EasyJson) Marshal(v any) error {
 	return nil
 }
 
-func (e *EasyJson) Unmarshal(v any) error {
+// Unmarshal parses the JSON-encoded data and stores the result in the value given in input as `v`.
+func (e *EasyJSON) Unmarshal(v any) error {
 	if e.handler == nil {
 		return fmt.Errorf("handler not configured")
 	}

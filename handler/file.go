@@ -22,7 +22,6 @@ func (fh *FileHandler) Read() ([]byte, error) {
 	data, err := os.ReadFile(fh.fileName)
 	if err != nil {
 		return nil, fmt.Errorf(" error in opening file : %s", err.Error())
-
 	}
 	return data, nil
 }
