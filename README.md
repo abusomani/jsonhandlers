@@ -17,6 +17,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/abusomani/jsonhandlers.svg)](https://pkg.go.dev/github.com/abusomani/jsonhandlers)
 [![Repo size](https://img.shields.io/github/repo-size/abusomani/jsonhandlers)](https://shields.io/github/repo-size/abusomani/jsonhandlers)
 [![Coverage Status](https://coveralls.io/repos/github/abusomani/jsonhandlers/badge.svg?branch=main)](https://coveralls.io/github/abusomani/jsonhandlers?branch=main)
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#json)
 
 
 ## Prerequisites
@@ -54,7 +55,7 @@ You can use the `WithFileHandler` option to read/write Json from/to a file. For 
 [Example](./example/operations/file_handling.go) to understand `WithFileHandler` in more detail.
 
 **Sample Code**
-```
+```go
 package operations
 
 import (
@@ -104,7 +105,7 @@ You can use the `WithHTTPRequestHandler` option to read Json from a Http Request
 [Example](./example/operations/http_request_handling.go) to understand `WithHTTPRequestHandler` in more detail.
 
 **Sample Code**
-```
+```go
 package operations
 
 import (
@@ -124,7 +125,7 @@ type studentSearchResponse struct {
 func HandleHTTPRequest(students []student) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		
-    jh := jsonhandlers.New(jsonhandlers.WithHTTPRequestHandler(w, r))
+    	jh := jsonhandlers.New(jsonhandlers.WithHTTPRequestHandler(w, r))
 
 		var reqBody studentSearchRequest
 		err := jh.Unmarshal(&reqBody)
@@ -178,7 +179,7 @@ You can use the `WithHTTPResponseHandler` option to read/write Json from/to a Ht
 
 **Sample Code**
 
-```
+```go
 package operations
 
 import (
