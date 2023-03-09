@@ -64,36 +64,12 @@ import (
 	"github.com/abusomani/jsonhandlers"
 )
 
-func GetStudentsFromFile() []student {
-	return handleFile()
-}
 
-func handleFile() []student {
+func handleFile() {
 	jh := jsonhandlers.New(jsonhandlers.WithFileHandler(testFilePath))
 
 	var sch school
 	err := jh.Unmarshal(&sch)
-	handleError("error in unmarshalling %s", err)
-	fmt.Printf("School info is : %+v\n", sch)
-
-	// add a new student to the school
-	sch.Students = append(sch.Students[:2], student{
-		Id:     3,
-		Name:   "The new student",
-		Branch: "AI",
-	})
-
-	err = jh.Marshal(sch)
-	handleError("error in marshalling %s", err)
-	fmt.Printf("Updated school info after admission of new student is : %+v\n", sch)
-
-	// remove the new student as he was very mischievous
-	sch.Students = sch.Students[:2]
-
-	err = jh.Marshal(sch)
-	handleError("error in marshalling %s", err)
-	fmt.Printf("Updated school info after retaining all good students is : %+v\n", sch)
-	return sch.Students
 }
 
 ```
@@ -128,40 +104,20 @@ func HandleHTTPRequest(students []student) http.Handler {
     	jh := jsonhandlers.New(jsonhandlers.WithHTTPRequestHandler(w, r))
 
 		var reqBody studentSearchRequest
-		err := jh.Unmarshal(&reqBody)
-		if err != nil {
-			errPayload := struct {
-				StatusCode int
-				Message    string
-			}{
-				StatusCode: http.StatusBadRequest,
-				Message:    err.Error(),
-			}
-			// request is bad
-			jh.Marshal(errPayload)
-			return
-		}
+		_ := jh.Unmarshal(&reqBody)
+		
 
 		for _, student := range students {
 			// student found
 			if student.Name == reqBody.Name {
-				// response has the right student info written
+				
+				// write the response using jh.Marshal
 				jh.Marshal(studentSearchResponse{
 					Info: student,
 				})
 				return
 			}
 		}
-
-		errPayload := struct {
-			StatusCode int
-			Message    string
-		}{
-			StatusCode: http.StatusInternalServerError,
-			Message:    "something went wrong",
-		}
-		// student not found
-		jh.Marshal(errPayload)
 	})
 }
 
@@ -194,9 +150,6 @@ type user struct {
 	Id        int
 	FirstName string
 	LastName  string
-	Age       int
-	Gender    string
-	Email     string
 }
 
 type getUsersResponse struct {
@@ -204,15 +157,11 @@ type getUsersResponse struct {
 }
 
 func HandleHTTPResponse() {
-	resp, err := http.Get("https://dummyjson.com/users")
-	if err != nil {
-		log.Fatalf("unable to make the get request %s", err.Error())
-	}
+	resp, _ := http.Get("https://dummyjson.com/users")
 	jh := jsonhandlers.New(jsonhandlers.WithHTTPResponseHandler(resp))
 
 	var userResp getUsersResponse
 	jh.Unmarshal(&userResp)
-	fmt.Printf("response is %+v\n", userResp)
 }
 
 ```
