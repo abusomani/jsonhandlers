@@ -17,6 +17,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/abusomani/jsonhandlers.svg)](https://pkg.go.dev/github.com/abusomani/jsonhandlers)
 [![Repo size](https://img.shields.io/github/repo-size/abusomani/jsonhandlers)](https://shields.io/github/repo-size/abusomani/jsonhandlers)
 [![Coverage Status](https://coveralls.io/repos/github/abusomani/jsonhandlers/badge.svg?branch=main)](https://coveralls.io/github/abusomani/jsonhandlers?branch=main)
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#json)
 
 
 ## Prerequisites
