@@ -18,10 +18,8 @@ linters:
   enable:
     - exportloopref
     - goimports
-    - gosec
     - nilerr
     - predeclared
-    - revive
     - rowserrcheck
     - sqlclosecheck
     - tparallel

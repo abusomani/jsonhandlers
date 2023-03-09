@@ -1,23 +1,23 @@
-package easyjson
+package jsonhandlers
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
 
-	"github.com/abusomani/easyjson/handler"
+	"github.com/abusomani/jsonhandlers/handler"
 )
 
-// EasyJSON exposes Marshal and Unmarshal methods.
-type EasyJSON struct {
+// JSONHandler exposes Marshal and Unmarshal methods.
+type JSONHandler struct {
 	// default handler is NoopHandler
 	// It can take values of FileHandler, HTTPRequestHandler, HTTPResponseHandler
 	handler handler.Handler
 }
 
-// New returns a new EasyJSON instance with variable options to set the required configurations.
-func New(opts ...Option) *EasyJSON {
-	e := &EasyJSON{}
+// New returns a new JSONHandler instance with variable options to set the required configurations.
+func New(opts ...Option) *JSONHandler {
+	e := &JSONHandler{}
 
 	// set the default configurations
 	defaults := WithDefaults()
@@ -29,13 +29,20 @@ func New(opts ...Option) *EasyJSON {
 	return e
 }
 
+func (jh *JSONHandler) SetOptions(opts ...Option) *JSONHandler {
+	for _, opt := range opts {
+		opt(jh)
+	}
+	return jh
+}
+
 // Marshal writes the JSON encoding of v in the configured source of handler.
 //
 // JSON cannot represent cyclic data structures and Marshal does not
 // handle them. Passing cyclic structures to Marshal will result in
 // an error.
-func (e *EasyJSON) Marshal(v any) error {
-	if e.handler == nil {
+func (jh *JSONHandler) Marshal(v any) error {
+	if jh.handler == nil {
 		return fmt.Errorf("handler not configured")
 	}
 
@@ -44,7 +51,7 @@ func (e *EasyJSON) Marshal(v any) error {
 		return fmt.Errorf("json marshal: %s", err.Error())
 	}
 
-	if err := e.handler.Write(value); err != nil {
+	if err := jh.handler.Write(value); err != nil {
 		return fmt.Errorf("error in write: %s", err.Error())
 	}
 
@@ -52,11 +59,11 @@ func (e *EasyJSON) Marshal(v any) error {
 }
 
 // Unmarshal parses the JSON-encoded data and stores the result in the value given in input as `v`.
-func (e *EasyJSON) Unmarshal(v any) error {
-	if e.handler == nil {
+func (jh *JSONHandler) Unmarshal(v any) error {
+	if jh.handler == nil {
 		return fmt.Errorf("handler not configured")
 	}
-	data, err := e.handler.Read()
+	data, err := jh.handler.Read()
 	if err != nil {
 		return errors.New(err.Error())
 	}
