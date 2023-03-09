@@ -21,7 +21,6 @@ linters:
     - goconst
     - godot
     - godox
-    - gomnd
     - gomoddirectives
     - goprintffuncname
     - ifshort
@@ -29,7 +28,6 @@ linters:
     - misspell
     - nakedret
     - nestif
-    - noctx
     - nolintlint
     - prealloc
 

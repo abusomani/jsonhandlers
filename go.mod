@@ -1,4 +1,4 @@
-module github.com/abusomani/easyjson
+module github.com/abusomani/jsonhandlers
 
 go 1.20
 
